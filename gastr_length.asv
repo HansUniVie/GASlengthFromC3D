@@ -1,0 +1,74 @@
+% hans.kainz@univie.ac.at 
+% july 2021
+clear all; clc; close all;
+home = 'C:\Users\Hans\Documents\UNI_WIEN\MikeSchwartzCollaboration\BART_MuscleLength\';
+
+    addpath('C:\Users\u0113767\Documents\WORK_KULeuven\MATLABcodes\MatlabOpensimPipelineTools\');
+    addpath('C:\Users\u0113767\Documents\WORK_KULeuven\MATLABcodes\processEMG');
+    
+    
+  % from OpenSim model gait 2392  
+    gastrLength.ankleAngle = load_sto_file([home 'gastr_ankleAngle_NeutralPosit.mot']);
+    gastrLength.kneeAngle = load_sto_file([home 'gastr_kneeAngle_NeutralPosit.mot']);
+  % interpolate data knee angle 
+    x=gastrLength.kneeAngle.knee_angle_r;
+    v=gastrLength.kneeAngle.lat_gas_r;
+    xq=(-120:0.5:10)';
+    vq2 = interp1(x,v,xq,'spline');
+    
+    Spline.knee.kneeAngle = xq;
+    Spline.knee.lat_gas = vq2;
+    
+    clear v, clear vq2;    
+    v=gastrLength.kneeAngle.med_gas_r;
+    vq2 = interp1(x,v,xq,'spline');
+    Spline.knee.med_gas = vq2;
+     clear v, clear vq2; clear x; clear xq;
+    % control plot
+    figure
+    plot(Spline.knee.kneeAngle,Spline.knee.lat_gas)
+    hold on
+    plot(Spline.knee.kneeAngle,Spline.knee.med_gas)
+      % interpolate data ankle angle
+    x=gastrLength.ankleAngle.ankle_angle_r;
+    v=gastrLength.ankleAngle.lat_gas_r;
+    xq=(-90:0.5:90)';
+    vq2 = interp1(x,v,xq,'spline');
+    
+    Spline.ankle.ankleAngle = xq;
+    Spline.ankle.lat_gas = vq2;
+    
+    clear v, clear vq2;    
+    v=gastrLength.ankleAngle.med_gas_r;
+    vq2 = interp1(x,v,xq,'spline');
+    Spline.ankle.med_gas = vq2;
+     clear v, clear vq2; clear x; clear xq;
+    % control plot
+    figure
+    plot(Spline.ankle.ankleAngle,Spline.ankle.lat_gas)
+    hold on
+    plot(Spline.ankle.ankleAngle,Spline.ankle.med_gas)
+    
+    %% example 
+    val_k = 20.2; % knee angle 20 degrees
+    val_a = 40.6; % ankle angle 40 degrees
+    neutral = 0; % anatomical neutral position
+    % find closest point on knee spline
+    val_k = val_k*(-1) % because in OpenSim knee flexion is negative
+    
+    [ d, ix ] = min( abs( Spline.knee.kneeAngle-val_k ) ); % find closest point based on current knee angle
+    
+    [ d2, ix2 ] = min( abs( Spline.knee.kneeAngle-neutral ) ); % find closest point based on current knee angle
+    
+    
+    
+    
+    >> x(ix-1:ix+1)
+    ans =
+       -1.0360   -1.0270   -1.0180
+    
+    for t=1:length(Spline.knee.kneeAngle)
+        
+        
+    end
+    
