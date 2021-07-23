@@ -22,7 +22,7 @@ function m = gastlength(val_k,val_a,z)
             % find closest point on knee spline     
             [ d, ix ] = min( abs( Spline.knee.kneeAngle-val_k(i,1) ) ); % find closest point based on current knee angle
              % find closest point on ankle spline    
-            [ d3, ix3 ] = min( abs( Spline.ankle.ankleAngle-val_a(i,1) ) ); % find closest point based on current knee angle
+            [ d3, ix3 ] = min( abs( Spline.ankle.ankleAngle-val_a(i,1) ) ); % find closest point based on current ankle angle
 
             % calculate difference in muscle length between zero and current knee angle
              mlength_knee_diff_neutral_curr = Spline.knee.(muscle_set{z})(ix,1)-Spline.knee.(muscle_set{z})(ix2,1);  
