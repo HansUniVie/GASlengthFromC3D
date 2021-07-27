@@ -34,8 +34,8 @@ function m = gastlength(val_k,val_a,z)
         end
         % get reference length from anatomic position (knee and ankle angle = 0 degrees)
         refLength = Spline.knee.(muscle_set{z})(ix2,1);
-        % normalize muscle length to anatomical position
-        m=m./ refLength;
+        m2=m./ refLength;
+
     else
          error ( 'z must be 1 for medial gastrocnemicus or 2 for lateral gastrocnemicus. No other input is allowed for z' )
     end
